@@ -1,0 +1,828 @@
+{
+  "name": "PDSC TEST 2 - Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": true
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6ea3336c-8e0d-4079-b958-9409e57eb574",
+      "name": "Telegram Trigger",
+      "webhookId": "002e0afe-8077-44ef-b2a5-13d5ba002a9a",
+      "credentials": {
+        "telegramApi": {
+          "id": "6Jfa3m918qfRTuxv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q",
+          "mode": "list",
+          "cachedResultName": "PDSC TEST 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Folder",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date_Folder": "={{ $json.id }}",
+            "Date": "={{ $json.name }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date_Folder",
+              "displayName": "Date_Folder",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1360,
+        -32
+      ],
+      "id": "276b1d70-ae4d-4f22-8b48-15434924b9fe",
+      "name": "Append Label Folder",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rAtSU6aLwpeZVvtx",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Date Folder",
+        "height": 288,
+        "width": 1120,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        448,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "987d3e9f-7c6b-4b9a-bf0a-1f4302305983",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.formatted_date }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1Fx7Fmglt2ClyBIiybPd7M3gU1xv9tIaK",
+            "mode": "list",
+            "cachedResultName": "PDSC Task 2 082026",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1Fx7Fmglt2ClyBIiybPd7M3gU1xv9tIaK"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        672,
+        -16
+      ],
+      "id": "7a29d472-56ac-4bda-975e-85a45ea8285f",
+      "name": "search date",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "tcx28sOKF9tcL48b",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fd04c672-28ce-442a-a6af-e232be1442d0",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        880,
+        -16
+      ],
+      "id": "6cab922f-413e-437a-b3f9-e453b3e4beec",
+      "name": "if no date folder"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  const telegramTimestamp = item.json.message.date; // e.g., 1788089633\n  \n  // Convert seconds to milliseconds\n  const dateObj = new Date(telegramTimestamp * 1000);\n  \n  // Format to YYYY-MM-DD\n  const formattedDate = dateObj.toISOString().split('T')[0];\n  \n  item.json.formatted_date = formattedDate;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -16
+      ],
+      "id": "251e3ffb-2fd3-4b47-9c25-4a596c5f73b2",
+      "name": "get date"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('get date').item.json.formatted_date }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Fx7Fmglt2ClyBIiybPd7M3gU1xv9tIaK",
+          "mode": "list",
+          "cachedResultName": "PDSC Task 2 082026",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Fx7Fmglt2ClyBIiybPd7M3gU1xv9tIaK"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1136,
+        -32
+      ],
+      "id": "f9ff7c6e-b219-430f-9caa-4582014bbb97",
+      "name": "Create date folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "tcx28sOKF9tcL48b",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "=$binary",
+        "include": "allOtherFields",
+        "options": {
+          "includeBinary": true
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        960,
+        304
+      ],
+      "id": "2ee9d55a-9d49-480f-a542-bb4f3057a7f1",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q",
+          "mode": "list",
+          "cachedResultName": "PDSC TEST 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Folder",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Date",
+              "lookupValue": "={{ $('get date').item.json.formatted_date }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        304
+      ],
+      "id": "906244d7-291e-49d7-81bc-45617e147f91",
+      "name": "Get name folder",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rAtSU6aLwpeZVvtx",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "={{ Object.keys($binary)[0] }}",
+        "name": "={{ $binary[Object.keys($binary)[0]].fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Get name folder').item.json.Date_Folder }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1152,
+        304
+      ],
+      "id": "1285ff6d-83ab-44c0-86d2-9f07b97702d5",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "tcx28sOKF9tcL48b",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Upload Image\n",
+        "height": 208,
+        "width": 1124,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        448,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "52c687ea-01b9-4fc7-931f-d3505b32f094",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Telegram Trigger').item.json.message.photo ? $('Telegram Trigger').item.json.message.photo.last().file_id : $('Telegram Trigger').item.json.message.document.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        752,
+        304
+      ],
+      "id": "37c0ada7-cbd1-4969-8e93-e7cad6fa94f5",
+      "name": "Get a file",
+      "webhookId": "201ac1ad-ce44-4a91-a9f0-7b7938a00558",
+      "credentials": {
+        "telegramApi": {
+          "id": "6Jfa3m918qfRTuxv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.6-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.6-flash"
+        },
+        "text": "Extract key details from this receipt image. Return ONLY a valid JSON object with no markdown formatting, no code blocks, and no extra text.\n\n{\n  \"merchant\": \"Store or Vendor Name\",\n  \"amount\": 0.00,\n  \"currency\": \"PHP\",\n  \"receipt_date\": \"YYYY-MM-DD\"\n}",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        640
+      ],
+      "id": "b601d775-fffd-407f-a32d-60407f023d0a",
+      "name": "Analyze an image",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ifW8Sw85nB5boOD4",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  // Extract the raw text containing the markdown JSON block from Gemini\n  const rawText = item.json.content.parts[0].text;\n  \n  // Strip markdown formatting (```json ... ```)\n  const cleanJson = rawText.replace(/```json|```/g, '').trim();\n  \n  // Parse string into a structured JSON object\n  const parsedData = JSON.parse(cleanJson);\n  \n  // Attach parsed properties directly to json output\n  item.json.merchant = parsedData.merchant;\n  item.json.amount = parsedData.amount;\n  item.json.currency = parsedData.currency;\n  item.json.receipt_date = parsedData.receipt_date;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        640
+      ],
+      "id": "b544266e-9b0b-48e2-8653-f5207cc2d15b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        960,
+        624
+      ],
+      "id": "5e37c300-cf6e-410e-ab9b-aec204494344",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q",
+          "mode": "list",
+          "cachedResultName": "PDSC TEST 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1331908341,
+          "mode": "list",
+          "cachedResultName": "Record",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1I8wyCIomUVkvPBoBk8roUAyzaDMDzCvqMkb4i-unq5Q/edit#gid=1331908341"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Receipt Date": "={{ $json.receipt_date }}",
+            "Merchant": "={{ $json.merchant }}",
+            "Amount": "={{ $json.amount }}",
+            "Currency": "={{ $json.currency }}",
+            "Submission Date": "={{ $json.submission_date }}",
+            "Drive Photo Link": "={{ $json.drive_photo_link }}"
+          },
+          "matchingColumns": [
+            "Drive Photo Link"
+          ],
+          "schema": [
+            {
+              "id": "Submission Date",
+              "displayName": "Submission Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Receipt Date",
+              "displayName": "Receipt Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Merchant",
+              "displayName": "Merchant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Currency",
+              "displayName": "Currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Drive Photo Link",
+              "displayName": "Drive Photo Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1360,
+        624
+      ],
+      "id": "30793105-e936-4c3b-bd37-2341e61b7ec8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rAtSU6aLwpeZVvtx",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access the merged input items\nconst items = $input.all();\n\n// Extract Google Drive link (Item 0)\n// Falls back to webContentLink or empty string if webViewLink isn't available\nconst driveItem = items[0]?.json || {};\nconst driveLink = driveItem.webViewLink || driveItem.webContentLink || \"\";\n\n// Extract Gemini output (Item 1)\nconst geminiItem = items[1]?.json || {};\n\n// Handle both directly mapped properties or raw text string inside parts[0].text\nlet merchant = geminiItem.merchant || \"\";\nlet amount = geminiItem.amount || 0;\nlet currency = geminiItem.currency || \"PHP\";\nlet receiptDate = geminiItem.receipt_date || \"\";\n\n// Fallback JSON string parser in case top-level properties are missing\nif (!merchant && geminiItem.content?.parts?.[0]?.text) {\n  try {\n    const rawText = geminiItem.content.parts[0].text;\n    const cleanJson = rawText.replace(/```json|```/g, '').trim();\n    const parsed = JSON.parse(cleanJson);\n    \n    merchant = parsed.merchant || \"\";\n    amount = parsed.amount || 0;\n    currency = parsed.currency || \"PHP\";\n    receiptDate = parsed.receipt_date || \"\";\n  } catch (e) {\n    // Graceful fallback if parsing fails\n  }\n}\n\n// Return a single consolidated JSON object for Google Sheets\nreturn [\n  {\n    json: {\n      submission_date: new Date().toISOString().split('T')[0],\n      receipt_date: receiptDate,\n      merchant: merchant,\n      amount: amount,\n      currency: currency,\n      drive_photo_link: driveLink\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        624
+      ],
+      "id": "31be909c-360c-4bab-90c4-46598d0fb73e",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "=✅ Receipt Logged Successfully!\n\n🏪 Merchant: {{ $json[\"Merchant\"] }} \n💰 Amount: {{ $json[\"Currency\"] }} {{ $json[\"Amount\"] }} \n📅 Receipt Date: {{ $json[\"Receipt Date\"] }} \n📥 Logged On: {{ $json[\"Submission Date\"] }} \n\n📁 [View Original Photo in Google Drive]({{ $json[\"Drive Photo Link\"] }})",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        624
+      ],
+      "id": "0be826d0-c3ef-4d3c-ba79-d7c707c8b0f8",
+      "name": "Send a text message",
+      "webhookId": "65fa40a9-9126-46df-a3a1-d9c4f3a9c0cc",
+      "credentials": {
+        "telegramApi": {
+          "id": "6Jfa3m918qfRTuxv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Analyze and Record",
+        "height": 256,
+        "width": 1412,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        448,
+        560
+      ],
+      "typeVersion": 1,
+      "id": "3dff7e8a-c1b7-4cb8-9710-af3a3b7735fb",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "756adc2b-bfe2-4dbc-b11d-bdb20099b449",
+              "leftValue": "={{ $binary.data }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "223a9071-b473-436b-871c-2c6acb0c9f48",
+      "name": "Receipt Sent"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "=Oops! Didn't catch that.\n\nPlease resend receipt image.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        240
+      ],
+      "id": "a903ae70-1227-411a-bc89-ace8d1e46f9b",
+      "name": "Resend chat",
+      "webhookId": "71589616-b509-48be-93f5-f1877072e0b9",
+      "credentials": {
+        "telegramApi": {
+          "id": "6Jfa3m918qfRTuxv",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Receipt Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search date": {
+      "main": [
+        [
+          {
+            "node": "if no date folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if no date folder": {
+      "main": [
+        [
+          {
+            "node": "Create date folder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get name folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get date": {
+      "main": [
+        [
+          {
+            "node": "search date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create date folder": {
+      "main": [
+        [
+          {
+            "node": "Append Label Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get name folder": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Label Folder": {
+      "main": [
+        [
+          {
+            "node": "Get name folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receipt Sent": {
+      "main": [
+        [
+          {
+            "node": "get date",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resend chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7f5bc068-d64a-4512-8857-1451eb20e830",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea95a4afbc4b9f43f2d56ffd256347fc8d9536c5b0cd93b6706ce5e9c6b88275"
+  },
+  "nodeGroups": [],
+  "id": "vYnpegHG2K3yD8aN",
+  "tags": []
+}
