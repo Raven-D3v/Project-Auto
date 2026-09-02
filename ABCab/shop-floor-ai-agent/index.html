@@ -1,1 +1,1917 @@
-index
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop-Floor AI Agent</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px 24px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* =========================
+           CONTROL PANEL
+        ========================= */
+
+        .control-panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        select,
+        input {
+            width: 100%;
+            height: 44px;
+            padding: 0 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #6b7280;
+        }
+
+        button {
+            height: 44px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 8px;
+            background: #111827;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #374151;
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           GRID
+        ========================= */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+        /* =========================
+           PANEL INFORMATION
+        ========================= */
+
+        .panel-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .info-item {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #6b7280;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status-box {
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 5px solid #9ca3af;
+            background: #f9fafb;
+        }
+
+        .status-box.success {
+            border-left-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .status-box.warning {
+            border-left-color: #d97706;
+            background: #fffbeb;
+        }
+
+        .status-box.error {
+            border-left-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        .status-box.info {
+            border-left-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .status-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .decision {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =========================
+           INSTRUCTIONS
+        ========================= */
+
+        .instructions {
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .instructions ol {
+            padding-left: 22px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        /* =========================
+           SOURCES
+        ========================= */
+
+        .sources {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .source-tag {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #374151;
+        }
+
+        /* =========================
+           ASK AI
+        ========================= */
+
+        .ask-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ask-container input {
+            flex: 1;
+        }
+
+        .answer-box {
+            margin-top: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        /* =========================
+           TRACE
+        ========================= */
+
+        .trace {
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .trace-item {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .trace-item:last-child {
+            border-bottom: none;
+        }
+
+        .trace-success {
+            color: #15803d;
+        }
+
+        .trace-failure {
+            color: #dc2626;
+        }
+
+        .trace-tool {
+            font-weight: 700;
+        }
+
+        .trace-source {
+            margin-top: 4px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .history-table th,
+        .history-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .history-table th {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #6b7280;
+        }
+
+        .history-empty {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            display: none;
+            padding: 15px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #d1d5db;
+            border-top-color: #111827;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 7px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+            display: none;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 30px;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card.full {
+                grid-column: auto;
+            }
+
+            .panel-info {
+                grid-template-columns: 1fr;
+            }
+
+            .ask-container {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">Shop-Floor AI Agent</div>
+        <div class="subtitle">
+            Cabinet Production Assistant · Mock Production Environment
+        </div>
+    </div>
+</header>
+
+
+<main>
+
+    <!-- =========================
+         CONTROL PANEL
+    ========================= -->
+
+    <section class="control-panel">
+
+        <div class="section-title">
+            Panel Check
+        </div>
+
+        <div class="controls">
+
+            <div class="field">
+
+                <label for="workstation">
+                    Workstation
+                </label>
+
+                <select id="workstation">
+
+                    <option value="EDGE-01">
+                        Edge Banding
+                    </option>
+
+                    <option value="DRILL-01">
+                        Drilling
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="panelCode">
+                    Panel Code
+                </label>
+
+                <select id="panelCode">
+
+                    <option value="P-1001">
+                        P-1001
+                    </option>
+
+                    <option value="P-1002">
+                        P-1002
+                    </option>
+
+                    <option value="P-2001">
+                        P-2001
+                    </option>
+
+                    <option value="P-2002">
+                        P-2002
+                    </option>
+
+                    <option value="P-9999">
+                        P-9999 (Unknown)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button id="checkButton" onclick="checkPanel()">
+                CHECK PANEL
+            </button>
+
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+
+    </section>
+
+
+    <!-- =========================
+         LOADING
+    ========================= -->
+
+    <div id="loading" class="loading">
+
+        <span class="spinner"></span>
+
+        AI Agent is checking panel information...
+
+    </div>
+
+
+    <!-- =========================
+         MAIN GRID
+    ========================= -->
+
+    <div class="grid">
+
+
+        <!-- PANEL INFORMATION -->
+
+        <section class="card">
+
+            <div class="section-title">
+                Panel Information
+            </div>
+
+            <div class="panel-info">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Panel Code
+                    </div>
+
+                    <div id="infoPanelCode" class="info-value">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Cabinet ID
+                    </div>
+
+                    <div id="infoCabinetId" class="info-value">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Panel Name
+                    </div>
+
+                    <div id="infoPanelName" class="info-value">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Dimensions
+                    </div>
+
+                    <div id="infoDimensions" class="info-value">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Material
+                    </div>
+
+                    <div id="infoMaterial" class="info-value">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Required Operation
+                    </div>
+
+                    <div id="infoOperation" class="info-value">
+                        —
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AGENT DECISION -->
+
+        <section class="card">
+
+            <div class="section-title">
+                Agent Decision
+            </div>
+
+            <div id="statusBox" class="status-box">
+
+                <div class="status-label">
+                    Status
+                </div>
+
+                <div id="statusValue" class="status-value">
+                    Waiting
+                </div>
+
+            </div>
+
+
+            <div class="decision">
+
+                <strong>Decision:</strong>
+
+                <div id="decisionText">
+                    Select a workstation and panel, then click "Check Panel".
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <strong>Next Step:</strong>
+
+                <div id="nextStep">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="sources">
+
+                <span class="source-tag">
+                    Source: —
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- INSTRUCTIONS -->
+
+        <section class="card">
+
+            <div class="section-title">
+                Instructions
+            </div>
+
+            <div id="instructions" class="instructions">
+
+                No instructions loaded.
+
+            </div>
+
+        </section>
+
+
+        <!-- ASK AI -->
+
+        <section class="card">
+
+            <div class="section-title">
+                Ask AI
+            </div>
+
+            <div class="ask-container">
+
+                <input
+                    type="text"
+                    id="questionInput"
+                    placeholder="Ask about this panel or SOP..."
+                    onkeydown="handleQuestionKey(event)"
+                >
+
+                <button
+                    id="askButton"
+                    onclick="askAI()"
+                >
+                    ASK AI
+                </button>
+
+            </div>
+
+
+            <div id="answerBox" class="answer-box"></div>
+
+        </section>
+
+
+        <!-- AGENT TRACE -->
+
+        <section class="card full">
+
+            <div class="section-title">
+                Agent Trace
+            </div>
+
+            <div id="trace" class="trace">
+
+                <div class="trace-item">
+
+                    Waiting for agent execution...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HISTORY -->
+
+        <section class="card full">
+
+            <div class="section-title">
+                Recent History
+            </div>
+
+            <div id="history">
+
+                <div class="history-empty">
+                    No activity recorded yet.
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    Shop-Floor AI Agent · Fictional Production Environment · Assessment MVP
+
+</footer>
+
+
+
+<script>
+
+    /* =========================================================
+       CONFIGURATION
+    ========================================================= */
+
+    /*
+        IMPORTANT:
+
+        Replace this URL with your n8n production webhook URL.
+
+        Example:
+
+        https://your-n8n-instance.com/webhook/shop-floor-agent
+
+        During development you can use:
+
+        https://your-n8n-instance.com/webhook-test/shop-floor-agent
+    */
+
+    const N8N_WEBHOOK_URL =
+        "YOUR_N8N_WEBHOOK_URL_HERE";
+
+
+    /* =========================================================
+       ELEMENT REFERENCES
+    ========================================================= */
+
+    const workstationSelect =
+        document.getElementById("workstation");
+
+    const panelSelect =
+        document.getElementById("panelCode");
+
+    const checkButton =
+        document.getElementById("checkButton");
+
+    const askButton =
+        document.getElementById("askButton");
+
+    const questionInput =
+        document.getElementById("questionInput");
+
+    const loading =
+        document.getElementById("loading");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+
+    /* =========================================================
+       CHECK PANEL
+    ========================================================= */
+
+    async function checkPanel() {
+
+        const panelCode =
+            panelSelect.value;
+
+        const workstationId =
+            workstationSelect.value;
+
+        clearError();
+
+        setLoading(true);
+
+        addTrace(
+            "Starting panel check...",
+            "info"
+        );
+
+
+        const payload = {
+
+            action: "scan",
+
+            panel_code: panelCode,
+
+            workstation_id: workstationId,
+
+            message:
+                `Can panel ${panelCode} be processed at workstation ${workstationId}?`
+
+        };
+
+
+        try {
+
+            const response =
+                await callAgent(payload);
+
+
+            displayAgentResponse(response);
+
+
+            addHistory({
+
+                event_type: "Panel Scan",
+
+                panel_code: panelCode,
+
+                workstation_id: workstationId,
+
+                status:
+                    getResponseStatus(response)
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            showError(
+                "Unable to contact the AI Agent. Check your n8n webhook URL and make sure the workflow is active."
+            );
+
+            addTrace(
+                "AI Agent request failed",
+                "failure"
+            );
+
+        }
+
+        finally {
+
+            setLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       ASK AI
+    ========================================================= */
+
+    async function askAI() {
+
+        const question =
+            questionInput.value.trim();
+
+        if (!question) {
+
+            return;
+
+        }
+
+
+        const panelCode =
+            panelSelect.value;
+
+        const workstationId =
+            workstationSelect.value;
+
+
+        clearError();
+
+        setLoading(true);
+
+        askButton.disabled = true;
+
+
+        const answerBox =
+            document.getElementById("answerBox");
+
+
+        answerBox.style.display = "block";
+
+        answerBox.textContent =
+            "AI Agent is thinking...";
+
+
+        const payload = {
+
+            action: "question",
+
+            panel_code: panelCode,
+
+            workstation_id: workstationId,
+
+            message: question
+
+        };
+
+
+        try {
+
+            const response =
+                await callAgent(payload);
+
+
+            displayQuestionResponse(response);
+
+
+            addHistory({
+
+                event_type: "AI Question",
+
+                panel_code: panelCode,
+
+                workstation_id: workstationId,
+
+                status: "Completed"
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            answerBox.textContent =
+                "Unable to contact the AI Agent.";
+
+            showError(
+                "The AI Agent request failed."
+            );
+
+        }
+
+        finally {
+
+            setLoading(false);
+
+            askButton.disabled = false;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       CALL N8N
+    ========================================================= */
+
+    async function callAgent(payload) {
+
+        if (
+            !N8N_WEBHOOK_URL ||
+            N8N_WEBHOOK_URL === "YOUR_N8N_WEBHOOK_URL_HERE"
+        ) {
+
+            throw new Error(
+                "N8N webhook URL has not been configured."
+            );
+
+        }
+
+
+        const response =
+            await fetch(
+                N8N_WEBHOOK_URL,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(payload)
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP error ${response.status}`
+            );
+
+        }
+
+
+        return await response.json();
+
+    }
+
+
+    /* =========================================================
+       DISPLAY AGENT RESPONSE
+    ========================================================= */
+
+    function displayAgentResponse(data) {
+
+        /*
+            The code below supports several possible
+            n8n response structures.
+
+            Ideally your Respond to Webhook node returns:
+
+            {
+                "status": "Correct Workstation",
+                "panel": {...},
+                "decision": "...",
+                "instructions": [...],
+                "next_step": "...",
+                "sources": [...],
+                "trace": [...]
+            }
+
+            If your Agent currently returns only text,
+            the fallback will still display it.
+        */
+
+
+        const result =
+            extractResult(data);
+
+
+        /* PANEL */
+
+        if (result.panel) {
+
+            document.getElementById(
+                "infoPanelCode"
+            ).textContent =
+                result.panel.panel_code || "—";
+
+
+            document.getElementById(
+                "infoCabinetId"
+            ).textContent =
+                result.panel.cabinet_id || "—";
+
+
+            document.getElementById(
+                "infoPanelName"
+            ).textContent =
+                result.panel.panel_name || "—";
+
+
+            document.getElementById(
+                "infoDimensions"
+            ).textContent =
+                formatDimensions(result.panel);
+
+
+            document.getElementById(
+                "infoMaterial"
+            ).textContent =
+                result.panel.material || "—";
+
+
+            document.getElementById(
+                "infoOperation"
+            ).textContent =
+                result.panel.required_operation || "—";
+
+        }
+
+
+        /* STATUS */
+
+        const status =
+            result.status ||
+            "Information Available";
+
+
+        document.getElementById(
+            "statusValue"
+        ).textContent =
+            status;
+
+
+        updateStatusStyle(status);
+
+
+        /* DECISION */
+
+        document.getElementById(
+            "decisionText"
+        ).textContent =
+            result.decision ||
+            result.output ||
+            "No decision returned.";
+
+
+        /* NEXT STEP */
+
+        document.getElementById(
+            "nextStep"
+        ).textContent =
+            result.next_step ||
+            "Follow the approved SOP.";
+
+
+        /* INSTRUCTIONS */
+
+        displayInstructions(
+            result.instructions
+        );
+
+
+        /* SOURCES */
+
+        displaySources(
+            result.sources
+        );
+
+
+        /* TRACE */
+
+        displayTrace(
+            result.trace
+        );
+
+    }
+
+
+    /* =========================================================
+       DISPLAY QUESTION RESPONSE
+    ========================================================= */
+
+    function displayQuestionResponse(data) {
+
+        const result =
+            extractResult(data);
+
+
+        const answer =
+            result.output ||
+            result.answer ||
+            result.response ||
+            result.decision ||
+            JSON.stringify(data, null, 2);
+
+
+        const answerBox =
+            document.getElementById("answerBox");
+
+
+        answerBox.style.display =
+            "block";
+
+
+        answerBox.textContent =
+            answer;
+
+
+        displaySources(
+            result.sources
+        );
+
+
+        displayTrace(
+            result.trace
+        );
+
+    }
+
+
+    /* =========================================================
+       EXTRACT RESULT
+    ========================================================= */
+
+    function extractResult(data) {
+
+        /*
+            If n8n returns:
+
+            {
+                "output": "..."
+            }
+
+            this will work.
+
+            If n8n returns:
+
+            {
+                "result": {...}
+            }
+
+            this also works.
+        */
+
+        if (
+            data &&
+            typeof data.result === "object"
+        ) {
+
+            return data.result;
+
+        }
+
+
+        return data || {};
+
+    }
+
+
+    /* =========================================================
+       FORMAT DIMENSIONS
+    ========================================================= */
+
+    function formatDimensions(panel) {
+
+        if (!panel) {
+
+            return "—";
+
+        }
+
+
+        const length =
+            panel.length_mm;
+
+        const width =
+            panel.width_mm;
+
+        const thickness =
+            panel.thickness_mm;
+
+
+        if (
+            length &&
+            width &&
+            thickness
+        ) {
+
+            return `${length} × ${width} × ${thickness} mm`;
+
+        }
+
+
+        return "—";
+
+    }
+
+
+    /* =========================================================
+       DISPLAY INSTRUCTIONS
+    ========================================================= */
+
+    function displayInstructions(instructions) {
+
+        const container =
+            document.getElementById(
+                "instructions"
+            );
+
+
+        if (!instructions) {
+
+            container.innerHTML =
+                "No instructions loaded.";
+
+            return;
+
+        }
+
+
+        if (Array.isArray(instructions)) {
+
+            const list =
+                document.createElement("ol");
+
+
+            instructions.forEach(
+                instruction => {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.textContent =
+                        instruction;
+
+                    list.appendChild(li);
+
+                }
+            );
+
+
+            container.innerHTML = "";
+
+            container.appendChild(list);
+
+            return;
+
+        }
+
+
+        container.textContent =
+            instructions;
+
+    }
+
+
+    /* =========================================================
+       DISPLAY SOURCES
+    ========================================================= */
+
+    function displaySources(sources) {
+
+        const container =
+            document.querySelector(
+                ".sources"
+            );
+
+
+        container.innerHTML = "";
+
+
+        if (
+            !sources ||
+            sources.length === 0
+        ) {
+
+            const tag =
+                document.createElement("span");
+
+            tag.className =
+                "source-tag";
+
+            tag.textContent =
+                "Source: Agent Response";
+
+            container.appendChild(tag);
+
+            return;
+
+        }
+
+
+        sources.forEach(source => {
+
+            const tag =
+                document.createElement("span");
+
+            tag.className =
+                "source-tag";
+
+            tag.textContent =
+                `Source: ${source}`;
+
+            container.appendChild(tag);
+
+        });
+
+    }
+
+
+    /* =========================================================
+       TRACE
+    ========================================================= */
+
+    function displayTrace(trace) {
+
+        const container =
+            document.getElementById(
+                "trace"
+            );
+
+
+        container.innerHTML = "";
+
+
+        if (
+            !trace ||
+            trace.length === 0
+        ) {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "trace-item";
+
+            item.textContent =
+                "Execution completed. Detailed trace was not returned.";
+
+            container.appendChild(item);
+
+            return;
+
+        }
+
+
+        trace.forEach(step => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "trace-item";
+
+
+            const success =
+                step.status !== "failure";
+
+
+            item.innerHTML = `
+
+                <div class="${
+                    success
+                    ? "trace-success"
+                    : "trace-failure"
+                }">
+
+                    ${success ? "✓" : "✕"}
+
+                    <span class="trace-tool">
+                        ${escapeHtml(
+                            step.tool ||
+                            step.name ||
+                            "Agent step"
+                        )}
+                    </span>
+
+                </div>
+
+                <div>
+                    ${
+                        escapeHtml(
+                            step.input ||
+                            ""
+                        )
+                    }
+                </div>
+
+                <div class="trace-source">
+
+                    ${
+                        escapeHtml(
+                            step.source ||
+                            ""
+                        )
+                    }
+
+                </div>
+            `;
+
+
+            container.appendChild(item);
+
+        });
+
+    }
+
+
+    /* =========================================================
+       ADD TRACE
+    ========================================================= */
+
+    function addTrace(message, type = "info") {
+
+        const container =
+            document.getElementById(
+                "trace"
+            );
+
+
+        const item =
+            document.createElement("div");
+
+
+        item.className =
+            "trace-item";
+
+
+        if (type === "failure") {
+
+            item.classList.add(
+                "trace-failure"
+            );
+
+        }
+        else {
+
+            item.classList.add(
+                "trace-success"
+            );
+
+        }
+
+
+        item.textContent =
+            type === "failure"
+            ? `✕ ${message}`
+            : `✓ ${message}`;
+
+
+        container.prepend(item);
+
+    }
+
+
+    /* =========================================================
+       HISTORY
+    ========================================================= */
+
+    function addHistory(event) {
+
+        const container =
+            document.getElementById(
+                "history"
+            );
+
+
+        const empty =
+            container.querySelector(
+                ".history-empty"
+            );
+
+
+        if (empty) {
+
+            container.innerHTML = "";
+
+        }
+
+
+        const table =
+            container.querySelector(
+                "table"
+            );
+
+
+        let historyTable;
+
+
+        if (!table) {
+
+            historyTable =
+                document.createElement("table");
+
+            historyTable.className =
+                "history-table";
+
+
+            historyTable.innerHTML = `
+
+                <thead>
+
+                    <tr>
+
+                        <th>Time</th>
+
+                        <th>Event</th>
+
+                        <th>Panel</th>
+
+                        <th>Workstation</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody></tbody>
+
+            `;
+
+
+            container.appendChild(
+                historyTable
+            );
+
+        }
+        else {
+
+            historyTable =
+                table;
+
+        }
+
+
+        const tbody =
+            historyTable.querySelector(
+                "tbody"
+            );
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${new Date().toLocaleTimeString()}
+            </td>
+
+            <td>
+                ${escapeHtml(event.event_type)}
+            </td>
+
+            <td>
+                ${escapeHtml(event.panel_code)}
+            </td>
+
+            <td>
+                ${escapeHtml(event.workstation_id)}
+            </td>
+
+            <td>
+                ${escapeHtml(event.status)}
+            </td>
+
+        `;
+
+
+        tbody.prepend(row);
+
+    }
+
+
+    /* =========================================================
+       RESPONSE STATUS
+    ========================================================= */
+
+    function getResponseStatus(data) {
+
+        const result =
+            extractResult(data);
+
+
+        return (
+            result.status ||
+            "Completed"
+        );
+
+    }
+
+
+    /* =========================================================
+       STATUS STYLE
+    ========================================================= */
+
+    function updateStatusStyle(status) {
+
+        const box =
+            document.getElementById(
+                "statusBox"
+            );
+
+
+        box.className =
+            "status-box";
+
+
+        const text =
+            status.toLowerCase();
+
+
+        if (
+            text.includes("correct") ||
+            text.includes("available") ||
+            text.includes("approved")
+        ) {
+
+            box.classList.add(
+                "success"
+            );
+
+        }
+        else if (
+            text.includes("wrong") ||
+            text.includes("not found") ||
+            text.includes("error") ||
+            text.includes("unavailable")
+        ) {
+
+            box.classList.add(
+                "error"
+            );
+
+        }
+        else if (
+            text.includes("escalat") ||
+            text.includes("warning")
+        ) {
+
+            box.classList.add(
+                "warning"
+            );
+
+        }
+        else {
+
+            box.classList.add(
+                "info"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    function setLoading(isLoading) {
+
+        loading.style.display =
+            isLoading
+            ? "block"
+            : "none";
+
+
+        checkButton.disabled =
+            isLoading;
+
+    }
+
+
+    /* =========================================================
+       ERROR
+    ========================================================= */
+
+    function showError(message) {
+
+        errorMessage.textContent =
+            message;
+
+        errorMessage.style.display =
+            "block";
+
+    }
+
+
+    function clearError() {
+
+        errorMessage.textContent =
+            "";
+
+        errorMessage.style.display =
+            "none";
+
+    }
+
+
+    /* =========================================================
+       ENTER KEY
+    ========================================================= */
+
+    function handleQuestionKey(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            askAI();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+        if (
+            value === undefined ||
+            value === null
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+</script>
+
+</body>
+</html>
