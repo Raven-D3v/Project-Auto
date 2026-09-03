@@ -67,27 +67,44 @@ The operator can:
 
 ## 📊 Structured Data
 
-Google Sheets is used as the source of truth for the fictional production data.
+Google Sheets is used as the **source of truth** for the fictional production data used by the AI Agent.
 
-**Sheets:**
+The database is organized into four sheets: **Panels, Workstations, SOPs, and Events.**
 
-```text
-Panels
-Workstations
-SOPs
-Events
-```
+### 📋 Panel Data
 
-![Google Sheets Database](screenshots/google-sheets.png)
+Contains the production information for each panel, including dimensions, material, cabinet ID, and required operation.
 
-Example:
+![Panel Data](https://github.com/Raven-D3v/Project-Auto/blob/7b97a82a23c9c20a0a8b8f9865301c77f50b2b2e/ABCab/shop-floor-ai-agent/images/panels.png)
 
-| Panel  | Operation    | Workstation |
-| ------ | ------------ | ----------- |
-| P-1001 | Edge Banding | EDGE-01     |
-| P-1002 | Edge Banding | EDGE-01     |
-| P-2001 | Drilling     | DRILL-01    |
-| P-2002 | Drilling     | DRILL-01    |
+### 🏭 Workstation Data
+
+Defines each workstation and the production operation it supports. The Agent uses this data to verify workstation compatibility.
+
+![Workstation Data](https://github.com/Raven-D3v/Project-Auto/blob/7b97a82a23c9c20a0a8b8f9865301c77f50b2b2e/ABCab/shop-floor-ai-agent/images/worksta.png)
+
+### 📖 SOP Data
+
+Contains the approved Standard Operating Procedures used by the Agent to provide grounded production instructions.
+
+![SOP Data](https://github.com/Raven-D3v/Project-Auto/blob/7b97a82a23c9c20a0a8b8f9865301c77f50b2b2e/ABCab/shop-floor-ai-agent/images/sop.png)
+
+### 📝 Event History
+
+Stores scans, questions, workstation mismatches, and supervisor escalations for basic activity tracking.
+
+![Event History](https://github.com/Raven-D3v/Project-Auto/blob/7b97a82a23c9c20a0a8b8f9865301c77f50b2b2e/ABCab/shop-floor-ai-agent/images/ev.png)
+
+### Example Production Data
+
+| Panel | Operation | Workstation |
+|---|---|---|
+| P-1001 | Edge Banding | EDGE-01 |
+| P-1002 | Edge Banding | EDGE-01 |
+| P-2001 | Drilling | DRILL-01 |
+| P-2002 | Drilling | DRILL-01 |
+
+---
 
 ---
 
