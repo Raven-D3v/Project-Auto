@@ -1,1 +1,444 @@
-style.css
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  }
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+background: #f4f6f8;
+color: #1f2937;
+min-height: 100vh;
+}
+
+/* =========================
+HEADER
+========================= */
+
+header {
+background: #111827;
+color: white;
+padding: 20px 24px;
+}
+
+.header-inner {
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.logo {
+font-size: 24px;
+font-weight: 700;
+}
+
+.subtitle {
+margin-top: 5px;
+color: #9ca3af;
+font-size: 14px;
+}
+
+/* =========================
+MAIN CONTAINER
+========================= */
+
+main {
+max-width: 1200px;
+margin: 0 auto;
+padding: 24px;
+}
+
+/* =========================
+CONTROL PANEL
+========================= */
+
+.control-panel {
+background: white;
+border: 1px solid #e5e7eb;
+border-radius: 12px;
+padding: 20px;
+margin-bottom: 20px;
+}
+
+.section-title {
+font-size: 16px;
+font-weight: 700;
+margin-bottom: 16px;
+}
+
+.controls {
+display: grid;
+grid-template-columns: 1fr 1fr auto;
+gap: 15px;
+align-items: end;
+}
+
+.field {
+display: flex;
+flex-direction: column;
+gap: 7px;
+}
+
+label {
+font-size: 13px;
+font-weight: 600;
+color: #4b5563;
+}
+
+select,
+input {
+width: 100%;
+height: 44px;
+padding: 0 12px;
+border: 1px solid #d1d5db;
+border-radius: 8px;
+background: white;
+font-size: 14px;
+outline: none;
+}
+
+select:focus,
+input:focus {
+border-color: #6b7280;
+}
+
+button {
+height: 44px;
+padding: 0 20px;
+border: none;
+border-radius: 8px;
+background: #111827;
+color: white;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: 0.2s;
+}
+
+button:hover {
+background: #374151;
+}
+
+button:disabled {
+background: #9ca3af;
+cursor: not-allowed;
+}
+
+/* =========================
+GRID
+========================= */
+
+.grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 20px;
+}
+
+.card {
+background: white;
+border: 1px solid #e5e7eb;
+border-radius: 12px;
+padding: 20px;
+}
+
+.card.full {
+grid-column: 1 / -1;
+}
+
+/* =========================
+PANEL INFORMATION
+========================= */
+
+.panel-info {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 14px;
+}
+
+.info-item {
+background: #f9fafb;
+border-radius: 8px;
+padding: 12px;
+}
+
+.info-label {
+font-size: 11px;
+text-transform: uppercase;
+color: #6b7280;
+margin-bottom: 5px;
+font-weight: 600;
+}
+
+.info-value {
+font-size: 14px;
+font-weight: 600;
+color: #111827;
+}
+
+/* =========================
+STATUS
+========================= */
+
+.status-box {
+border-radius: 10px;
+padding: 16px;
+margin-bottom: 16px;
+border-left: 5px solid #9ca3af;
+background: #f9fafb;
+}
+
+.status-box.success {
+border-left-color: #16a34a;
+background: #f0fdf4;
+}
+
+.status-box.warning {
+border-left-color: #d97706;
+background: #fffbeb;
+}
+
+.status-box.error {
+border-left-color: #dc2626;
+background: #fef2f2;
+}
+
+.status-box.info {
+border-left-color: #2563eb;
+background: #eff6ff;
+}
+
+.status-label {
+font-size: 11px;
+font-weight: 700;
+text-transform: uppercase;
+color: #6b7280;
+margin-bottom: 5px;
+}
+
+.status-value {
+font-size: 20px;
+font-weight: 700;
+}
+
+.decision {
+margin-bottom: 15px;
+line-height: 1.6;
+font-size: 14px;
+}
+
+/* =========================
+INSTRUCTIONS
+========================= */
+
+.instructions {
+line-height: 1.7;
+font-size: 14px;
+}
+
+.instructions ol {
+padding-left: 22px;
+}
+
+.instructions li {
+margin-bottom: 5px;
+}
+
+/* =========================
+SOURCES
+========================= */
+
+.sources {
+margin-top: 15px;
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
+
+.source-tag {
+background: #f3f4f6;
+border: 1px solid #e5e7eb;
+padding: 6px 10px;
+border-radius: 20px;
+font-size: 12px;
+color: #374151;
+}
+
+/* =========================
+ASK AI
+========================= */
+
+.ask-container {
+display: flex;
+gap: 10px;
+}
+
+.ask-container input {
+flex: 1;
+}
+
+.answer-box {
+margin-top: 16px;
+background: #f9fafb;
+border-radius: 8px;
+padding: 16px;
+font-size: 14px;
+line-height: 1.7;
+white-space: pre-wrap;
+display: none;
+}
+
+/* =========================
+TRACE
+========================= */
+
+.trace {
+font-family: monospace;
+font-size: 13px;
+}
+
+.trace-item {
+padding: 12px;
+border-bottom: 1px solid #e5e7eb;
+}
+
+.trace-item:last-child {
+border-bottom: none;
+}
+
+.trace-success {
+color: #15803d;
+}
+
+.trace-failure {
+color: #dc2626;
+}
+
+.trace-tool {
+font-weight: 700;
+}
+
+.trace-source {
+margin-top: 4px;
+color: #6b7280;
+font-size: 12px;
+}
+
+/* =========================
+HISTORY
+========================= */
+
+.history-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 13px;
+}
+
+.history-table th,
+.history-table td {
+text-align: left;
+padding: 10px;
+border-bottom: 1px solid #e5e7eb;
+}
+
+.history-table th {
+font-size: 11px;
+text-transform: uppercase;
+color: #6b7280;
+}
+
+.history-empty {
+color: #9ca3af;
+font-size: 13px;
+}
+
+/* =========================
+LOADING
+========================= */
+
+.loading {
+display: none;
+padding: 15px;
+text-align: center;
+color: #6b7280;
+font-size: 14px;
+}
+
+.spinner {
+display: inline-block;
+width: 16px;
+height: 16px;
+border: 2px solid #d1d5db;
+border-top-color: #111827;
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+vertical-align: middle;
+margin-right: 7px;
+}
+
+@keyframes spin {
+to {
+transform: rotate(360deg);
+}
+}
+
+/* =========================
+ERROR
+========================= */
+
+.error-message {
+display: none;
+background: #fef2f2;
+border: 1px solid #fecaca;
+color: #991b1b;
+padding: 12px;
+border-radius: 8px;
+margin-top: 15px;
+font-size: 13px;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+footer {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 24px 30px;
+color: #9ca3af;
+font-size: 12px;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+```
+.controls {
+    grid-template-columns: 1fr;
+}
+
+.grid {
+    grid-template-columns: 1fr;
+}
+
+.card.full {
+    grid-column: auto;
+}
+
+.panel-info {
+    grid-template-columns: 1fr;
+}
+
+.ask-container {
+    flex-direction: column;
+}
+
+button {
+    width: 100%;
+}
+```
+
+}
+
+
