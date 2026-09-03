@@ -10,10 +10,9 @@ Built for the **Junior AI Engineer Practical Assessment**.
 
 |                  |                     |
 | ---------------- | ------------------- |
-| **Demo**         | `YOUR_DEMO_URL`     |
-| **Repository**   | `YOUR_GITHUB_URL`   |
-| **LLM**          | `YOUR_LLM_PROVIDER` |
-| **Approx. Time** | `~1 hour`           |
+| **Demo**         | `https://drive.google.com/file/d/1CHMClPd3rly1qZ5ZgdDeFQJWH3Upmtnm/view?usp=drivesdk`|     
+| **LLM**          | `Groq` |
+| **Approx. Time** | `~3 hour`           |
 
 ---
 
@@ -44,7 +43,7 @@ Input
   → Respond / Act
 ```
 
-![n8n Workflow](screenshots/n8n-workflow.png)
+![n8n Workflow](https://github.com/Raven-D3v/Project-Auto/blob/3f32aaf33118a14bd4efbdfa1a96619ef813afdb/ABCab/shop-floor-ai-agent/images/workfl.jpg)
 
 ---
 
@@ -61,7 +60,7 @@ The operator can:
 * View the agent/tool trace
 * Review activity history
 
-![Web UI](screenshots/web-ui.png)
+![Web UI](https://github.com/Raven-D3v/Project-Auto/blob/3f32aaf33118a14bd4efbdfa1a96619ef813afdb/ABCab/shop-floor-ai-agent/images/webUI.png)
 
 ---
 
