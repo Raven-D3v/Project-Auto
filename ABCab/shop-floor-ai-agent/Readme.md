@@ -11,7 +11,8 @@ Built for the **Junior AI Engineer Practical Assessment**.
 |                  |                     |
 | ---------------- | ------------------- |
 | **Demo**         | `https://drive.google.com/file/d/1CHMClPd3rly1qZ5ZgdDeFQJWH3Upmtnm/view?usp=drivesdk`|     
-| **LLM**          | `Groq` |
+| **Google Sheets - DB** | `https://drive.google.com/file/d/1CHMClPd3rly1qZ5ZgdDeFQJWH3Upmtnm/view?usp=drivesdk`|
+| **LLM**          | `Groq — openai/gpt-oss-120b` |
 | **Approx. Time** | `~3 hour`           |
 
 ---
@@ -194,22 +195,22 @@ When information is unavailable or inconsistent, the agent reports it and recomm
 
 # 🧠 Technical Questions
 
-**1. How does the agent decide which tool to call?**
+**1. How does the agent decide which tool to call?** <br>
 The LLM selects tools based on the operator's request and the available tool descriptions.
 
-**2. What tools are available?**
+**2. What tools are available?** <br>
 `get_panel`, `get_workstation_requirements`, `search_sop`, `record_event`, and `escalate_to_supervisor`.
 
-**3. What comes from structured data?**
+**3. What comes from structured data?** <br>
 Panel, workstation, and SOP information comes from Google Sheets.
 
-**4. How are hallucinations prevented?**
+**4. How are hallucinations prevented?** <br>
 The agent is instructed to use tools as the source of truth and never guess unavailable production information.
 
-**5. What happens if a tool/LLM call fails?**
+**5. What happens if a tool/LLM call fails?** <br>
 The system returns an error/retry response rather than generating unsupported production information.
 
-**6. What would you improve with one more day?**
+**6. What would you improve with one more day?** <br>
 I would improve tool error handling, validation, and observability before adding more features.
 
 ---
