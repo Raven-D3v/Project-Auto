@@ -215,25 +215,55 @@ I would improve tool error handling, validation, and observability before adding
 
 ---
 
-# ⚙️ Setup
+## ⚙️ Setup
 
-### Requirements
+The n8n workflow is already published and connected to the AI Agent and Google Sheets, so no n8n configuration is required to run the frontend.
 
-* n8n
-* Google Sheets
-* LLM API
-* Modern web browser
+### 1. Download the Frontend Files
 
-### Basic Setup
+Download the following three files from the repository:
 
-1. Create the Google Sheets tabs: `Panels`, `Workstations`, `SOPs`, `Events`.
-2. Configure Google Sheets credentials in n8n.
-3. Configure the LLM credentials.
-4. Import/configure the n8n workflow.
-5. Set the webhook URL in the frontend.
-6. Open the web application.
+- `index.html`
+- `style.css`
+- `script.js`
 
-No database server, vector database, Docker, or complex infrastructure is required.
+Place all three files in the same folder.
+
+The folder should look like:
+
+
+shop-floor-ai-agent/ <br>
+├── index.html <br>
+├── style.css <br>
+└── script.js <br>
+
+### 2. Open the HTML File
+
+Open:
+`index.html`
+
+in a web browser.
+
+The frontend is already configured to communicate with the published n8n webhook.
+
+### 3. Use the AI Agent
+
+Once the HTML page is open:
+
+1. Select a workstation.
+2. Enter a panel code.
+3. Click **Check Panel** to verify compatibility.
+4. Ask the AI Agent questions using the question input.
+5. Review the returned:
+   - Panel information
+   - Decision
+   - Instructions
+   - Sources
+   - Agent trace
+
+No local server, database, n8n installation, or additional backend configuration is required for the demo.
+
+> **Note:** The AI Agent backend is hosted through the published n8n workflow. The frontend sends requests to the configured n8n webhook, which handles the AI reasoning, tool calls, Google Sheets lookup, event recording, and response generation.
 
 ---
 
