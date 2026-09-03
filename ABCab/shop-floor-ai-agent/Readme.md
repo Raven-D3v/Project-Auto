@@ -11,7 +11,7 @@ Built for the **Junior AI Engineer Practical Assessment**.
 |                  |                     |
 | ---------------- | ------------------- |
 | **Demo**         | `https://drive.google.com/file/d/1CHMClPd3rly1qZ5ZgdDeFQJWH3Upmtnm/view?usp=drivesdk`|     
-| **Google Sheets - DB** | `https://drive.google.com/file/d/1CHMClPd3rly1qZ5ZgdDeFQJWH3Upmtnm/view?usp=drivesdk`|
+| **Google Sheets - DB** | `https://docs.google.com/spreadsheets/d/1FoYnu8829nTkTh84WgeuGAYaciCg4bm0ip0RL66BBck/edit?usp=drivesdk`|
 | **LLM**          | `Groq — openai/gpt-oss-120b` |
 | **Approx. Time** | `~3 hour`           |
 
