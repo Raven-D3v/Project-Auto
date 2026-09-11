@@ -18,7 +18,7 @@ The assessment demonstrates two primary areas:
 | **Task 1** | Database Architecture | Airtable |
 | **Task 2** | External API Integration | n8n + Remotive API + Airtable |
 | **Task 3** | Documentation | GitHub README |
-| **Task 4** | Screen Recording Walkthrough | Loom |
+| **Task 4** | Screen Recording Walkthrough | OBS |
 
 ---
 
