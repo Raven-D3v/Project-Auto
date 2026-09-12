@@ -17,9 +17,10 @@ The assessment demonstrates two primary areas:
 
 | Deliverable | Link |
 |---|---|
-| **Airtable Base** | [View Airtable Base](YOUR_AIRTABLE_LINK) |
-| **n8n Workflow** | [View Workflow JSON](n8n/remotive-job-import.json) |
-| **Screen Recording** | [Watch Demo](YOUR_VIDEO_LINK) |
+| **Airtable Base** | [View Airtable Base](https://airtable.com/appzrT9N2EUcFmg4E/shrg3NJkVfUOAXH3A) |
+| **n8n Workflow** | [View Workflow JSON](https://github.com/Raven-D3v/Project-Auto/blob/39aaf85acba8641c756b012033ab46a73269c61c/VAMaster/Automation-Test/VAMaster%20-%20Task%202%20-%20Remotive%20Job%20Import%20-%20RubinRaven.json) |
+| **Screen Recording** | [Watch Demo](https://drive.google.com/file/d/1-GK7t057_ZGKf0PGL4evLd2kGMCdlnNd/view?usp=drivesdk) |
+| **G-Drive Link**| [View Drive Folder](https://drive.google.com/drive/folders/1OmsxyvSseaf0AdxO3wEinvQqKiDMOiQn?usp=sharing)
 
 > **Note:** The Airtable link is provided for assessment review. The n8n workflow export is included in this repository for reproducibility.
 
