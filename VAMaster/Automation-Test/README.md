@@ -2,12 +2,26 @@
 
 ## Recruitment Pipeline & Remote Job Import Automation
 
+**Applicant:** RavenKlein T. Rubin
+
 This repository contains my submission for the **VAMasters Developer & Automation Expert Skill Test**.
 
 The assessment demonstrates two primary areas:
 
 1. **Database Architecture** — Designing a structured recruitment database in Airtable.
 2. **Automation & API Integration** — Building an n8n workflow that retrieves remote job listings from the Remotive API, transforms the data, and imports it into Airtable with deduplication and error handling.
+
+---
+
+## Quick Access
+
+| Deliverable | Link |
+|---|---|
+| **Airtable Base** | [View Airtable Base](YOUR_AIRTABLE_LINK) |
+| **n8n Workflow** | [View Workflow JSON](n8n/remotive-job-import.json) |
+| **Screen Recording** | [Watch Demo](YOUR_VIDEO_LINK) |
+
+> **Note:** The Airtable link is provided for assessment review. The n8n workflow export is included in this repository for reproducibility.
 
 ---
 
