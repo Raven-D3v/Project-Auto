@@ -1,0 +1,532 @@
+{
+  "name": "VAMaster - Task 2 - Remotive Job Import",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e37413b5-84af-49ab-9741-b2d11b33e3e8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://remotive.com/api/remote-jobs?search=n8n automation&limit=10",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "ed3b6d24-99fe-4717-b898-a1ccf92a2e97",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0741f248-0c4c-4817-8b69-0632eb364ba4",
+              "leftValue": "={{ $json.jobs }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "41ce78e1-98ca-4dfc-a447-c91c6c52f34b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Remotive API returned no jobs"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        608,
+        160
+      ],
+      "id": "4001a3c3-8617-4d6a-a90c-9430589eefde",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "jobs",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -80
+      ],
+      "id": "52f01364-8823-4b60-a4ea-cb8ca5881d52",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d933617a-a63a-48b3-ac01-e1d1ba6affff",
+              "name": "Job Title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "0fe26d3b-1108-4866-b26d-032608d05744",
+              "name": "Company",
+              "value": "={{ $json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "78652db6-9d10-422e-a535-34abb021cecd",
+              "name": "=Location",
+              "value": "={{ $json.candidate_required_location }}",
+              "type": "string"
+            },
+            {
+              "id": "37536ecb-d992-42d1-888c-a943f1ee102e",
+              "name": "Job Type",
+              "value": "={{ $json.job_type }}",
+              "type": "string"
+            },
+            {
+              "id": "6eefa6cd-3206-45d2-aa0c-fb2b50d2f5df",
+              "name": "Publication Date",
+              "value": "={{ $json.publication_date }}",
+              "type": "string"
+            },
+            {
+              "id": "02016abb-d317-46a1-9c25-dbcaa06d6b22",
+              "name": "Job URL",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "a3708423-8b92-477f-ab73-ddf49a7f905d",
+              "name": "Source",
+              "value": "Remotive",
+              "type": "string"
+            },
+            {
+              "id": "5496b298-bb7f-401e-9d99-533417833671",
+              "name": "Source Job ID",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "c98c228d-0e28-4f52-b84f-8ea579c00bab",
+              "name": "Salary",
+              "value": "={{ $json.salary }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        928,
+        -80
+      ],
+      "id": "95a5df1e-725a-49e6-b30d-e98b6b53e0c8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appzrT9N2EUcFmg4E",
+          "mode": "list",
+          "cachedResultName": "VA Recruitment Automation",
+          "cachedResultUrl": "https://airtable.com/appzrT9N2EUcFmg4E"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblrlYUeW55FDdjeU",
+          "mode": "list",
+          "cachedResultName": "Imported Jobs",
+          "cachedResultUrl": "https://airtable.com/appzrT9N2EUcFmg4E/tblrlYUeW55FDdjeU"
+        },
+        "filterByFormula": "={Source Job ID} = '{{$json[\"Source Job ID\"]}}'",
+        "options": {},
+        "sort": {
+          "property": []
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1392,
+        48
+      ],
+      "id": "4905ec6c-a20f-4ee8-ab72-3fe2347b048d",
+      "name": "Search records",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "C8ugapa5FRSR60xm",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7e63d6ce-0f81-4757-a0ba-c90db66a1943",
+              "leftValue": "={{$json.id}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1584,
+        64
+      ],
+      "id": "1d928188-1144-4c4f-8599-5bffdaae21a7",
+      "name": "Job Already Exists?"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appzrT9N2EUcFmg4E",
+          "mode": "list",
+          "cachedResultName": "VA Recruitment Automation",
+          "cachedResultUrl": "https://airtable.com/appzrT9N2EUcFmg4E"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblrlYUeW55FDdjeU",
+          "mode": "list",
+          "cachedResultName": "Imported Jobs",
+          "cachedResultUrl": "https://airtable.com/appzrT9N2EUcFmg4E/tblrlYUeW55FDdjeU"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Job Title": "={{ $('Loop Over Items').item.json[\"Job Title\"] }}",
+            "Company": "={{ $('Loop Over Items').item.json.Company }}",
+            "Location": "={{ $('Loop Over Items').item.json.Location }}",
+            "Job Type": "={{ $('Loop Over Items').item.json[\"Job Type\"] }}",
+            "Publication Date": "={{ $('Loop Over Items').item.json[\"Publication Date\"] }}",
+            "Job URL": "={{ $('Loop Over Items').item.json[\"Job URL\"] }}",
+            "Source": "={{ $('Loop Over Items').item.json.Source }}",
+            "Source Job ID": "={{ $('Loop Over Items').item.json[\"Source Job ID\"] }}",
+            "Salary": "={{ $('Loop Over Items').item.json.Salary }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Job Type",
+              "displayName": "Job Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Publication Date",
+              "displayName": "Publication Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Job URL",
+              "displayName": "Job URL",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Source Job ID",
+              "displayName": "Source Job ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Salary",
+              "displayName": "Salary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1808,
+        176
+      ],
+      "id": "323a8fdc-6ab4-48dd-b68d-57bcdc14c9e9",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "C8ugapa5FRSR60xm",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1152,
+        -80
+      ],
+      "id": "d5a1468b-1192-43ad-9cdc-d16f46b84770",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Job Already Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Already Exists?": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a6fd8d5f-f890-4a7b-a59b-c294e24971a9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ea95a4afbc4b9f43f2d56ffd256347fc8d9536c5b0cd93b6706ce5e9c6b88275"
+  },
+  "nodeGroups": [],
+  "id": "UgnehiuA6cmVD7Y7",
+  "tags": []
+}
