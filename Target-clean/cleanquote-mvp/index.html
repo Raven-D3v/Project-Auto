@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Get a Cleaning Quote | CleanQuote Demo</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <nav class="navbar navbar-light bg-white border-bottom">
+        <div class="container">
+            <span class="navbar-brand fw-bold">
+                Sparkle Clean Co.
+            </span>
+
+            <span class="text-muted small">
+                Cleaning Services
+            </span>
+        </div>
+    </nav>
+
+
+    <!-- Main -->
+    <main class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7 col-xl-6">
+
+                <!-- Intro -->
+                <div class="text-center mb-4">
+
+                    <span class="badge text-bg-light border mb-3">
+                        Instant Cleaning Estimate
+                    </span>
+
+                    <h1 class="fw-bold">
+                        Get Your Cleaning Quote
+                    </h1>
+
+                    <p class="text-muted">
+                        Tell us a little about your home and cleaning needs.
+                        We'll provide an estimated price based on the information you provide.
+                    </p>
+
+                </div>
+
+
+                <!-- Form Card -->
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <form id="quoteForm" novalidate>
+
+                            <!-- Customer Information -->
+                            <h5 class="fw-bold mb-3">
+                                Your Information
+                            </h5>
+
+                            <div class="mb-3">
+
+                                <label for="name" class="form-label">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    name="name"
+                                    placeholder="John Smith"
+                                    required
+                                >
+
+                                <div class="invalid-feedback">
+                                    Please enter your name.
+                                </div>
+
+                            </div>
+
+
+                            <div class="mb-4">
+
+                                <label for="email" class="form-label">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    placeholder="john@example.com"
+                                    required
+                                >
+
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
+
+                            </div>
+
+
+                            <hr class="my-4">
+
+
+                            <!-- Cleaning Information -->
+                            <h5 class="fw-bold mb-3">
+                                Cleaning Details
+                            </h5>
+
+
+                            <div class="mb-3">
+
+                                <label for="cleaningType" class="form-label">
+                                    Cleaning Type
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    id="cleaningType"
+                                    name="cleaningType"
+                                    required
+                                >
+
+                                    <option value="" selected disabled>
+                                        Select cleaning type
+                                    </option>
+
+                                    <option value="standard">
+                                        Standard Cleaning
+                                    </option>
+
+                                    <option value="deep">
+                                        Deep Cleaning
+                                    </option>
+
+                                    <option value="move_out">
+                                        Move-Out Cleaning
+                                    </option>
+
+                                </select>
+
+                                <div class="invalid-feedback">
+                                    Please select a cleaning type.
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+
+                                <!-- Bedrooms -->
+                                <div class="col-md-6 mb-3">
+
+                                    <label for="bedrooms" class="form-label">
+                                        Bedrooms
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="bedrooms"
+                                        name="bedrooms"
+                                        required
+                                    >
+
+                                        <option value="" selected disabled>
+                                            Select
+                                        </option>
+
+                                        <option value="0">Studio / 0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5+</option>
+
+                                    </select>
+
+                                    <div class="invalid-feedback">
+                                        Please select the number of bedrooms.
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Bathrooms -->
+                                <div class="col-md-6 mb-3">
+
+                                    <label for="bathrooms" class="form-label">
+                                        Bathrooms
+                                    </label>
+
+                                    <select
+                                        class="form-select"
+                                        id="bathrooms"
+                                        name="bathrooms"
+                                        required
+                                    >
+
+                                        <option value="" selected disabled>
+                                            Select
+                                        </option>
+
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4+</option>
+
+                                    </select>
+
+                                    <div class="invalid-feedback">
+                                        Please select the number of bathrooms.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Square Footage -->
+                            <div class="mb-4">
+
+                                <label for="squareFeet" class="form-label">
+                                    Approximate Home Size
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    id="squareFeet"
+                                    name="squareFeet"
+                                    required
+                                >
+
+                                    <option value="" selected disabled>
+                                        Select approximate size
+                                    </option>
+
+                                    <option value="500">
+                                        Under 500 sq ft
+                                    </option>
+
+                                    <option value="750">
+                                        500–999 sq ft
+                                    </option>
+
+                                    <option value="1250">
+                                        1,000–1,499 sq ft
+                                    </option>
+
+                                    <option value="1750">
+                                        1,500–1,999 sq ft
+                                    </option>
+
+                                    <option value="2250">
+                                        2,000–2,499 sq ft
+                                    </option>
+
+                                    <option value="2500">
+                                        2,500+ sq ft
+                                    </option>
+
+                                </select>
+
+                                <div class="invalid-feedback">
+                                    Please select an approximate home size.
+                                </div>
+
+                            </div>
+
+
+                            <hr class="my-4">
+
+
+                            <!-- Add-ons -->
+                            <h5 class="fw-bold mb-3">
+                                Optional Add-ons
+                            </h5>
+
+                            <div class="mb-4">
+
+                                <div class="form-check mb-2">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="oven"
+                                        id="oven"
+                                        name="addons"
+                                    >
+
+                                    <label class="form-check-label" for="oven">
+                                        Inside Oven
+                                    </label>
+
+                                </div>
+
+
+                                <div class="form-check mb-2">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="refrigerator"
+                                        id="refrigerator"
+                                        name="addons"
+                                    >
+
+                                    <label class="form-check-label" for="refrigerator">
+                                        Inside Refrigerator
+                                    </label>
+
+                                </div>
+
+
+                                <div class="form-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="windows"
+                                        id="windows"
+                                        name="addons"
+                                    >
+
+                                    <label class="form-check-label" for="windows">
+                                        Interior Windows
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Submit -->
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg w-100"
+                                id="submitButton"
+                            >
+                                Get My Estimate
+                            </button>
+
+
+                            <p class="text-muted text-center small mt-3 mb-0">
+                                This estimate is based on the information provided.
+                            </p>
+
+                        </form>
+
+
+                        <!-- Success Message -->
+                        <div
+                            id="successMessage"
+                            class="text-center d-none"
+                        >
+
+                            <div class="success-icon mb-3">
+                                ✓
+                            </div>
+
+                            <h3 class="fw-bold">
+                                Request Received
+                            </h3>
+
+                            <p class="text-muted">
+                                Your cleaning estimate request has been submitted successfully.
+                            </p>
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-primary"
+                                id="newQuoteButton"
+                            >
+                                Submit Another Request
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <p class="text-center text-muted small mt-4">
+                    © 2026 Sparkle Clean Co. · Demo
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
