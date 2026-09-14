@@ -3,6 +3,17 @@ const successMessage = document.getElementById("successMessage");
 const newQuoteButton = document.getElementById("newQuoteButton");
 const submitButton = document.getElementById("submitButton");
 
+// ------------------------------------
+// N8N WEBHOOK
+// ------------------------------------
+
+//Test = https://n8n-prraven.onrender.com/webhook-test/cleanquote
+//Prod = https://n8n-prraven.onrender.com/webhook/cleanquote
+
+const N8N_WEBHOOK_URL =
+    "https://n8n-prraven.onrender.com/webhook-test/cleanquote";
+
+
 form.addEventListener("submit", async function (event) {
 
     event.preventDefault();
@@ -54,19 +65,58 @@ form.addEventListener("submit", async function (event) {
 
 
     // ------------------------------------
-    // TEMPORARY DEMO
+    // SEND DATA TO N8N
     // ------------------------------------
 
-    console.log("Quote Request:", quoteData);
+    try {
+
+        console.log("Sending Quote Request:", quoteData);
+
+        const response = await fetch(N8N_WEBHOOK_URL, {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(quoteData)
+        });
 
 
-    // Simulate network request
-    await new Promise(resolve => setTimeout(resolve, 800));
+        // Check if n8n accepted the request
+        if (!response.ok) {
+            throw new Error(
+                `Webhook request failed: ${response.status}`
+            );
+        }
 
 
-    // Show success message
-    form.classList.add("d-none");
-    successMessage.classList.remove("d-none");
+        // ------------------------------------
+        // SUCCESS
+        // ------------------------------------
+
+        console.log("Quote successfully sent to n8n.");
+
+        form.classList.add("d-none");
+        successMessage.classList.remove("d-none");
+
+
+    } catch (error) {
+
+        // ------------------------------------
+        // ERROR
+        // ------------------------------------
+
+        console.error("Error sending quote:", error);
+
+        alert(
+            "Sorry, we couldn't process your request right now. Please try again."
+        );
+
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Get My Estimate";
+
+    }
 
 });
 
